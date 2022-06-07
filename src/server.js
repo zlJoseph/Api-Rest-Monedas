@@ -30,7 +30,7 @@ store.db.sync({ force: forceValue }).then(() => {
     if (forceValue){
         if(createSQL){
             const dateInitial = new Date(Date.UTC(2000,0,1));
-            //const dateEnd = new Date(Date.UTC(2000,0,5));
+            //const dateEnd = new Date(Date.UTC(2000,4,5));
             const dateEnd = new Date(Date.UTC(2022,4,25));
             var compraJSON=new Array();
             var ventaJSON=new Array();
@@ -82,9 +82,11 @@ store.db.sync({ force: forceValue }).then(() => {
                                 while(!complete){
                                     var dateBefore=new Date(i.getTime() - dia_mili*countBefore);
                                     var keyBefore=[padTo2Digits(dateBefore.getUTCDate()),padTo2Digits(dateBefore.getUTCMonth()+1),dateBefore.getUTCFullYear()].join('-');
-                                    if(ventaJSON[keyBefore]!=="n.d."){
-                                        complete=true;
-                                        ventaJSON[key]=ventaJSON[keyBefore];
+                                    if(ventaJSON[keyBefore]){
+                                        if(ventaJSON[keyBefore]!=="n.d."){
+                                            complete=true;
+                                            ventaJSON[key]=ventaJSON[keyBefore];
+                                        }
                                     }
                                     countBefore++;
                                 }
@@ -95,9 +97,11 @@ store.db.sync({ force: forceValue }).then(() => {
                                 while(!complete){
                                     var dateBefore=new Date(i.getTime() - dia_mili*countBefore);
                                     var keyBefore=[padTo2Digits(dateBefore.getUTCDate()),padTo2Digits(dateBefore.getUTCMonth()+1),dateBefore.getUTCFullYear()].join('-');
-                                    if(compraJSON[keyBefore]!=="n.d."){
-                                        complete=true;
-                                        compraJSON[key]=compraJSON[keyBefore];
+                                    if(ventaJSON[keyBefore]){
+                                        if(compraJSON[keyBefore]!=="n.d."){
+                                            complete=true;
+                                            compraJSON[key]=compraJSON[keyBefore];
+                                        }
                                     }
                                     countBefore++;
                                 }
@@ -167,4 +171,4 @@ function getNumberMonth(month){
 
 function padTo2Digits(num) {
     return num.toString().padStart(2,'0');
-  }
+}
